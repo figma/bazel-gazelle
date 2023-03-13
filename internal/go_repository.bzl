@@ -119,9 +119,7 @@ def _go_repository_impl(ctx):
     if not ctx.attr.urls:
         fetch_repo = str(ctx.path(Label("@bazel_gazelle_go_repository_tools//:bin/fetch_repo{}".format(executable_extension(ctx)))))
     generate = ctx.attr.build_file_generation == "on"
-    _gazelle = "@bazel_gazelle_go_repository_tools//:bin/gazelle{}".format(executable_extension(ctx))
-    if generate:
-        gazelle_path = ctx.path(Label(_gazelle))
+    gazelle_path = ctx.path(Label("@bazel_gazelle_go_repository_tools//:bin/gazelle{}".format(executable_extension(ctx))))
 
     if ctx.attr.urls:
         # HTTP mode
@@ -252,8 +250,6 @@ def _go_repository_impl(ctx):
             )
 
         # Run Gazelle
-        if gazelle_path == None:
-            gazelle_path = ctx.path(Label(_gazelle))
         cmd = [
             gazelle_path,
             "-go_repository_mode",
